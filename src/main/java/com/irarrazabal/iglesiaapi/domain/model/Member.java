@@ -1,5 +1,6 @@
 package com.irarrazabal.iglesiaapi.domain.model;
 
+import com.irarrazabal.iglesiaapi.domain.Enum.EcclesiasticalOffice;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

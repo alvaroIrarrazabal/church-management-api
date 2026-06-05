@@ -1,7 +1,7 @@
 package com.irarrazabal.iglesiaapi.domain.repository;
 
-import com.irarrazabal.iglesiaapi.application.dto.dashboard.DashboardOfficeCountResponse;
-import com.irarrazabal.iglesiaapi.domain.model.EcclesiasticalOffice;
+import com.irarrazabal.iglesiaapi.application.dashboard.dto.DashboardOfficeCountResponse;
+import com.irarrazabal.iglesiaapi.domain.Enum.EcclesiasticalOffice;
 import com.irarrazabal.iglesiaapi.domain.model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

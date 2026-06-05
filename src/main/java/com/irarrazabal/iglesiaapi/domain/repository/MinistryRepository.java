@@ -1,6 +1,6 @@
 package com.irarrazabal.iglesiaapi.domain.repository;
 
-import com.irarrazabal.iglesiaapi.application.dto.dashboard.DashboardMinistryCountResponse;
+import com.irarrazabal.iglesiaapi.application.dashboard.dto.DashboardMinistryCountResponse;
 import com.irarrazabal.iglesiaapi.domain.model.Ministry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
