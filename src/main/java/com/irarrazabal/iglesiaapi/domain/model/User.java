@@ -6,27 +6,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 
 @Entity
-@Table(name = "ministerios")
+@Table(name = "usuarios")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ministerio {
-
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private String descripcion;
-
-    @ManyToMany(mappedBy = "ministerios",  fetch = FetchType.LAZY)
-    private List<Integrante> integrantes;
-
-
+    private String username;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
 
 
 }

@@ -1,26 +1,32 @@
-package com.irarrazabal.iglesiaapi.application.dto.integrante;
+package com.irarrazabal.iglesiaapi.application.dto.members;
 
+import com.irarrazabal.iglesiaapi.domain.model.EcclesiasticalOffice;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public record UpdateIntegranteRequest(
+public record CreateMemberRequest(
 
         @NotBlank(message = "El nombre es obligatorio")
-        String nombre,
+        String name,
         @NotBlank(message = "El apellido es obligatorio ")
-        String apellido,
+        String lastname,
         @NotBlank(message = "El correo es obligatorio")
         @Email(message = "El correo no tiene un formato valido")
-        String correo,
+        String email,
         @NotNull(message = "La fecha de necimiento es obligatoria")
         @Past(message = "La fecha debe ser anterior hoy")
-        LocalDate fecaNacimiento,
+        LocalDate birthdate ,
         @NotNull(message = "El estado es obligatorio")
-        Boolean activo,
+        Boolean asset,
+        @NotNull(message = "El cargo es obligatorio")
+        EcclesiasticalOffice ecclesiasticalOffice,
         @NotEmpty(message = "Debe seleccionar almenos un ministerio")
-        List<Long> ministeriosIds
+        List<Long> ministryId
+
+
+
 
 
 ) {

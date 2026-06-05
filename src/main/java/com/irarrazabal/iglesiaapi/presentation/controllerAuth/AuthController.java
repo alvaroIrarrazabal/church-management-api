@@ -1,4 +1,4 @@
-package com.irarrazabal.iglesiaapi.presentation.controller;
+package com.irarrazabal.iglesiaapi.presentation.controllerAuth;
 
 import com.irarrazabal.iglesiaapi.application.dto.MessageResponse;
 import com.irarrazabal.iglesiaapi.application.dto.auth.AuthResponse;

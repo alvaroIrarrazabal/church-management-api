@@ -1,6 +1,6 @@
 package com.irarrazabal.iglesiaapi.infraestructure.security;
 
-import com.irarrazabal.iglesiaapi.domain.model.Usuario;
+import com.irarrazabal.iglesiaapi.domain.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,10 +10,10 @@ import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final Usuario usuario;
+    private final User user;
 
-    public CustomUserDetails(Usuario usuario) {
-        this.usuario = usuario;
+    public CustomUserDetails(User user) {
+        this.user = user;
     }
 
 
@@ -21,19 +21,19 @@ public class CustomUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(
                 new SimpleGrantedAuthority(
-                        "ROLE_"+usuario.getRol().name()
+                        "ROLE_"+ user.getRol().name()
                 )
         );
     }
 
     @Override
     public  String getPassword() {
-        return usuario.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return usuario.getUsername();
+        return user.getUsername();
     }
 
     @Override

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,17 +15,20 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Integrante {
+public class Member {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private String apellido;
-    private String correo;
-    private LocalDate fechanacimiento;
-    private boolean activo;
+    private String name;
+    private String lastname;
+    private String email;
+    private LocalDate birthdate;
+    private boolean asset;
+
+    @Enumerated(EnumType.STRING)
+    private EcclesiasticalOffice ecclesiasticalOffice;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -34,7 +36,7 @@ public class Integrante {
             joinColumns = @JoinColumn(name = "integrante_id"),
             inverseJoinColumns = @JoinColumn(name = "ministerio_id")
     )
-    private List<Ministerio> ministerios;
+    private List<Ministry> ministries;
 
 
 

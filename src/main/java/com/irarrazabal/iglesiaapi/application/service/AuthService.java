@@ -3,8 +3,8 @@ package com.irarrazabal.iglesiaapi.application.service;
 import com.irarrazabal.iglesiaapi.application.dto.auth.AuthResponse;
 import com.irarrazabal.iglesiaapi.application.dto.auth.LoginRequest;
 import com.irarrazabal.iglesiaapi.application.dto.auth.RegisterRequest;
-import com.irarrazabal.iglesiaapi.domain.model.Usuario;
-import com.irarrazabal.iglesiaapi.domain.repository.UsuarioRepository;
+import com.irarrazabal.iglesiaapi.domain.model.User;
+import com.irarrazabal.iglesiaapi.domain.repository.UserRepository;
 import com.irarrazabal.iglesiaapi.infraestructure.security.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,12 +17,12 @@ public class AuthService {
 
     private final AuthenticationManager authenticationManager;
 
-    private final UsuarioRepository usuarioRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public AuthService(UsuarioRepository usuarioRepository, JwtService jwtService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
-        this.usuarioRepository = usuarioRepository;
+    public AuthService(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+        this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -35,13 +35,13 @@ public class AuthService {
                 passwordEncoder.encode(
                         request.password()
                 );
-        Usuario usuario = new Usuario(
+        User user = new User(
                 null,
                 request.username(),
                 passwordHash,
                 request.rol()
         );
-        usuarioRepository.save(usuario);
+        userRepository.save(user);
     }
 
 

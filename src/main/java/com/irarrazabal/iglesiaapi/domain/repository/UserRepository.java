@@ -1,13 +1,13 @@
 package com.irarrazabal.iglesiaapi.domain.repository;
 
-import com.irarrazabal.iglesiaapi.domain.model.Usuario;
+import com.irarrazabal.iglesiaapi.domain.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<Usuario> findByUsername(String username);
+    Optional<User> findByUsername(String username);
 }

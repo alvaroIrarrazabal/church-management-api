@@ -7,7 +7,8 @@ public enum Rol {
 
      ADMIN,
      LIDER,
-    INTEGRANTE
+    INTEGRANTE,
+    PASTOR
 
 
 
