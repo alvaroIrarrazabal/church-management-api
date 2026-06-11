@@ -14,7 +14,7 @@ public interface MinistryRepository extends JpaRepository<Ministry, Long> {
 
 
     @Query("""
-        SELECT new com.irarrazabal.iglesiaapi.application.dto.dashboard.DashboardMinistryCountResponse(
+        SELECT new com.irarrazabal.iglesiaapi.application.dashboard.dto.DashboardMinistryCountResponse(
              m.name,
                 COUNT(mem)
              )

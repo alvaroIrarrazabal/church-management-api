@@ -16,6 +16,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             EcclesiasticalOffice ecclesiasticalOffice
     );
 
+
+
     List<Member> findByMinistries_Name(String name);
 
     List<Member> findByAssetTrue();
@@ -32,7 +34,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
 
     @Query("""
-            SELECT new com.irarrazabal.iglesiaapi.application.dto.dashboard.DashboardOfficeCountResponse(
+            SELECT new com.irarrazabal.iglesiaapi.application.dashboard.dto.DashboardOfficeCountResponse(
                m.ecclesiasticalOffice,
             COUNT(m)
                     )

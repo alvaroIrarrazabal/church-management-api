@@ -1,5 +1,6 @@
 package com.irarrazabal.iglesiaapi.exceptions.handler;
 
+import com.irarrazabal.iglesiaapi.exceptions.custom.AttendenceNotFoundExceptions;
 import com.irarrazabal.iglesiaapi.exceptions.custom.AuthNotFoundExceptions;
 import com.irarrazabal.iglesiaapi.exceptions.custom.MemberNotFoundExceptions;
 import com.irarrazabal.iglesiaapi.exceptions.custom.MinistryNotFoundException;
@@ -62,6 +63,16 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String manejarAuthNotFound(
             AuthNotFoundExceptions e
+    ) {
+        return  e.getMessage();
+    }
+
+    @ExceptionHandler(
+            AttendenceNotFoundExceptions.class
+    )
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String manejarAttendenceNotFound(
+            AttendenceNotFoundExceptions e
     ) {
         return  e.getMessage();
     }
