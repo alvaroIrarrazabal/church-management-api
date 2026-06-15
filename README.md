@@ -120,3 +120,11 @@ http://localhost:8081
 
 * LinkedIn: https://linkedin.com/in/alvaro-irarrazabal
 * GitHub: https://github.com/alvaroIrarrazabal/church-management-api
+
+* ##  Próximas funcionalidades
+
+- [ ] Dockerización del proyecto
+- [ ] Tests unitarios con JUnit y Mockito
+- [ ] Documentación completa con Swagger/OpenAPI
+- [ ] Implementación de microservicios
+- [ ] Pipeline CI/CD con GitHub Actions
