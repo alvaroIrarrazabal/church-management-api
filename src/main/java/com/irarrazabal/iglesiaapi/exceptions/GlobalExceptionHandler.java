@@ -33,11 +33,11 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(
-            IntegranteNotFoundExceptions.class
+            MemberNotFoundExceptions.class
     )
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String manejarEmpleadosNotFound(
-            IntegranteNotFoundExceptions e
+            MemberNotFoundExceptions e
     ) {
         return  e.getMessage();
     }
@@ -62,5 +62,31 @@ public class GlobalExceptionHandler {
     ) {
         return  e.getMessage();
     }
+
+
+
+    @ExceptionHandler(
+            TitheNotFoundException.class
+    )
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String manejarAuthNotFound(
+            TitheNotFoundException e
+    ) {
+        return  e.getMessage();
+    }
+
+    @ExceptionHandler(
+            OfferingNotFoundException.class
+    )
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String manejarAuthNotFound(
+            OfferingNotFoundException e
+    ) {
+        return  e.getMessage();
+    }
+
+
+
+
 
 }

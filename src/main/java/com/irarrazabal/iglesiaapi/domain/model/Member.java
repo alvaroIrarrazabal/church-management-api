@@ -1,5 +1,6 @@
 package com.irarrazabal.iglesiaapi.domain.model;
 
+import com.irarrazabal.iglesiaapi.domain.audit.Auditable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member {
+public class Member extends Auditable {
 
 
     @Id

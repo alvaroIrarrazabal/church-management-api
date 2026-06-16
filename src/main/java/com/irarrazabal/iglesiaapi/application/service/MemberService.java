@@ -9,7 +9,7 @@
     import com.irarrazabal.iglesiaapi.domain.model.Ministry;
     import com.irarrazabal.iglesiaapi.domain.repository.MemberRepository;
     import com.irarrazabal.iglesiaapi.domain.repository.MinistryRepository;
-    import com.irarrazabal.iglesiaapi.exceptions.IntegranteNotFoundExceptions;
+    import com.irarrazabal.iglesiaapi.exceptions.MemberNotFoundExceptions;
     import com.irarrazabal.iglesiaapi.exceptions.MinisterioNotFoundException;
     import org.springframework.stereotype.Service;
 
@@ -57,7 +57,7 @@
         //Buscar por id
         public MemberResponse findMemberById(Long id){
            Member member = memberRepository.findById(id)
-                   .orElseThrow(()-> new IntegranteNotFoundExceptions("Integrante no encontrado"));
+                   .orElseThrow(()-> new MemberNotFoundExceptions("Integrante no encontrado"));
 
            return this.toResponse(member);
 
@@ -74,7 +74,7 @@
         public MemberResponse updateMember(Long id, UpdateMemberRequest request){
 
             Member member = memberRepository.findById(id)
-                    .orElseThrow(()-> new IntegranteNotFoundExceptions("Integrante no encontrado"));
+                    .orElseThrow(()-> new MemberNotFoundExceptions("Integrante no encontrado"));
 
 
             List<Ministry> ministry = ministryRepository.findAllById(
@@ -104,7 +104,7 @@
         public void deleteMember(Long id){
 
             Member member = memberRepository.findById(id)
-                    .orElseThrow(() -> new IntegranteNotFoundExceptions("Integrante no encontrado"));
+                    .orElseThrow(() -> new MemberNotFoundExceptions("Integrante no encontrado"));
 
             memberRepository.delete(member);
         }

@@ -7,25 +7,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
-@Entity
-@Table(name = "ministerios")
-@Getter
-@Setter
+
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ministry extends Auditable {
-
+@Getter
+@Setter
+@Entity
+@Table(name="offerings")
+public class Offering extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String description;
 
-    @ManyToMany(mappedBy = "ministries",  fetch = FetchType.LAZY)
-    private List<Member> members;
+    private LocalDate serviceDate;
+
+    @Column(precision = 12, scale = 2)
+    private BigDecimal amount;
+
+    private String note;
 
 
 

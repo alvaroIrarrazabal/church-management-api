@@ -27,7 +27,6 @@ public class MinistryController {
 
     @GetMapping("/listAllMinistries")
     @PreAuthorize("hasAnyRole('PASTOR','LIDER','ADMIN')")
-
     public List<MinistryResponse> listByMinistry() {
 
         return ministryService.findAllMinisteries();
