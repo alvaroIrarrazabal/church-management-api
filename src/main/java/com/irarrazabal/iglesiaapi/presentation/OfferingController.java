@@ -1,4 +1,4 @@
-package com.irarrazabal.iglesiaapi.presentation.controllerOffering;
+package com.irarrazabal.iglesiaapi.presentation;
 
 
 import com.irarrazabal.iglesiaapi.application.dto.offering.*;

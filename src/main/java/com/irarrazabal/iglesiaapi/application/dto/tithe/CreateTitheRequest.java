@@ -2,15 +2,15 @@ package com.irarrazabal.iglesiaapi.application.dto.tithe;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record CreateTitherequest(
-
+public record CreateTitheRequest(
 
         @NotNull(message = "El integrante es obligatorio")
-                Long memberId,
+        Long memberId,
 
         @NotNull(message = "El monto es obligatorio")
         @Positive(message = "El monto debe ser mayor que cero")
@@ -19,8 +19,8 @@ public record CreateTitherequest(
         @NotNull(message = "La fecha es obligatoria")
         LocalDate date,
 
+        @Size(max = 255, message = "La nota no puede superar los 255 caracteres")
         String note
-
 
 ) {
 }

@@ -11,7 +11,7 @@ public record MemberResponse(
     String lastname,
     String email,
     Integer age,
-    boolean asset,
+    boolean active,
     EcclesiasticalOffice ecclesiasticalOffice,
     List<String> ministry
 

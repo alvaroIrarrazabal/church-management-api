@@ -9,6 +9,7 @@
     import com.irarrazabal.iglesiaapi.domain.repository.MinistryRepository;
     import com.irarrazabal.iglesiaapi.exceptions.MinisterioNotFoundException;
     import org.springframework.stereotype.Service;
+    import org.springframework.transaction.annotation.Transactional;
 
     import java.time.LocalDate;
     import java.time.Period;
@@ -28,7 +29,7 @@
 
 
 
-
+@Transactional(readOnly = true)
         public List<MinistryResponse> findAllMinisteries(){
 
             return ministryRepository.findAll()
@@ -38,7 +39,7 @@
 
         }
 
-
+@Transactional(readOnly = true)
         public MinistryResponse findMinistryById(Long id){
 
             Ministry ministry = ministryRepository.findById(id)
@@ -49,7 +50,7 @@
 
         }
 
-
+@Transactional
         public MinistryResponse createMinistry(CreateMinistryRequest request){
 
             Ministry ministry = new Ministry();
@@ -62,7 +63,7 @@
             return toResponse(savedMinistry);
         }
 
-
+@Transactional
         public MinistryResponse updateMinistry(Long id, UpdateMinistryRequest request){
 
             Ministry ministry = ministryRepository.findById(id)
@@ -120,7 +121,7 @@
                     member.getName(),
                     member.getLastname(),
                     member.getEmail(),
-                    member.isAsset()
+                    member.isActive()
 
 
 
@@ -143,7 +144,7 @@
                     member.getLastname(),
                     member.getEmail(),
                     edad,
-                    member.isAsset(),
+                    member.isActive(),
                     member.getEcclesiasticalOffice(),
                     member.getMinistries()
                             .stream()

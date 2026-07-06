@@ -2,36 +2,42 @@ package com.irarrazabal.iglesiaapi.domain.model;
 
 import com.irarrazabal.iglesiaapi.domain.audit.Auditable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "offerings")
+@Table(name="attendances",
+uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"member_id","service_date"}
+
+                )
+})
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Offering extends Auditable {
+@NoArgsConstructor
+public class Attendance extends Auditable {
+
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column( nullable = false)
+    @Column(name = "service_date", nullable = false)
     private LocalDate serviceDate;
 
-    @Column(nullable = false, precision = 12, scale = 2)
-    private BigDecimal amount;
-
-    @Column(length = 255)
-    private String note;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private AttendenceStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+
 }

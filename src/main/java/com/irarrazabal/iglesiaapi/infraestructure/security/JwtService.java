@@ -1,6 +1,7 @@
 package com.irarrazabal.iglesiaapi.infraestructure.security;
 
 
+import com.irarrazabal.iglesiaapi.domain.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -31,20 +32,15 @@ public class JwtService {
 
     //Generar token
 
-    public String generateToken(String username){
+    public String generateToken(User user) {
 
         return Jwts.builder()
-                .subject(username)
+                .subject(user.getEmail())
+                .claim("role", "ROLE_" + user.getRol().name())
                 .issuedAt(new Date())
-                .expiration(new Date(
-                        System.currentTimeMillis()
-                        + EXPIRATION
-                )
-
-                )
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(getSignKey())
                 .compact();
-
     }
 
     //Extrae todos los claims

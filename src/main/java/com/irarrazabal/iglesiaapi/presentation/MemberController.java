@@ -1,4 +1,4 @@
-package com.irarrazabal.iglesiaapi.presentation.controllerMember;
+package com.irarrazabal.iglesiaapi.presentation;
 
 import com.irarrazabal.iglesiaapi.application.dto.dashboard.DashboardOfficeCountResponse;
 import com.irarrazabal.iglesiaapi.application.dto.MessageResponse;

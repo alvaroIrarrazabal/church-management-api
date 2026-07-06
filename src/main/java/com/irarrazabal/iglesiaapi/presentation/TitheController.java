@@ -1,4 +1,4 @@
-package com.irarrazabal.iglesiaapi.presentation.controllerTithe;
+package com.irarrazabal.iglesiaapi.presentation;
 
 import com.irarrazabal.iglesiaapi.application.dto.tithe.*;
 import com.irarrazabal.iglesiaapi.application.service.TitheService;
@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -28,7 +27,7 @@ public class TitheController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('PASTOR','ADMIN')")
-    public TitheResponse createTithe(@RequestBody @Valid CreateTitherequest createTitherequest){
+    public TitheResponse createTithe(@RequestBody @Valid CreateTitheRequest createTitherequest){
         return titheService.createTithe(createTitherequest);
     }
 

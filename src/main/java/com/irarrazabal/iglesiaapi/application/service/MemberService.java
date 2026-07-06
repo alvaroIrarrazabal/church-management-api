@@ -12,6 +12,7 @@
     import com.irarrazabal.iglesiaapi.exceptions.MemberNotFoundExceptions;
     import com.irarrazabal.iglesiaapi.exceptions.MinisterioNotFoundException;
     import org.springframework.stereotype.Service;
+    import org.springframework.transaction.annotation.Transactional;
 
     import java.time.LocalDate;
     import java.time.Period;
@@ -30,12 +31,13 @@
         }
 
     //Crear nuevo integrante, busco por id los departamentos y agrego a la bd
+        @Transactional
         public MemberResponse createMember(CreateMemberRequest request ){
 
             List<Ministry> ministries = ministryRepository.findAllById(
-                    request.ministryId()
+                    request.ministryIds()
             );
-            if (ministries.size() != request.ministryId().size()) {
+            if (ministries.size() != request.ministryIds().size()) {
                 throw new MinisterioNotFoundException("Uno o más ministerios no existen");
             }
             Member member = new Member(
@@ -44,7 +46,7 @@
                     request.lastname(),
                     request.email(),
                     request.birthdate(),
-                    request.asset(),
+                    request.active(),
                     request.ecclesiasticalOffice(),
                     ministries);
 
@@ -55,6 +57,7 @@
 
 
         //Buscar por id
+        @Transactional(readOnly = true)
         public MemberResponse findMemberById(Long id){
            Member member = memberRepository.findById(id)
                    .orElseThrow(()-> new MemberNotFoundExceptions("Integrante no encontrado"));
@@ -64,6 +67,7 @@
         }
 
         //Listar todos los integrantes
+        @Transactional(readOnly = true)
         public List<MemberResponse> findAllMember(){
            return memberRepository.findAll()
                    .stream()
@@ -71,6 +75,7 @@
         }
 
         //Actualizar integrante, buscamos por id y si existe actualizamos
+        @Transactional
         public MemberResponse updateMember(Long id, UpdateMemberRequest request){
 
             Member member = memberRepository.findById(id)
@@ -78,9 +83,9 @@
 
 
             List<Ministry> ministry = ministryRepository.findAllById(
-                    request.ministryId());
+                    request.ministryIds());
 
-            if(ministry.size() != request.ministryId().size()){
+            if(ministry.size() != request.ministryIds().size()){
                 throw  new MinisterioNotFoundException("Uno o mas ministerios no existen");
             }
 
@@ -88,7 +93,7 @@
     member.setLastname(request.lastname());
     member.setEmail(request.email());
     member.setBirthdate(request.birthdate());
-    member.setAsset(request.asset());
+    member.setActive(request.active());
     member.setEcclesiasticalOffice(request.ecclesiasticalOffice());
     member.setMinistries(ministry);
 
@@ -101,6 +106,7 @@
 
 
     //Eliminar por id
+        @Transactional
         public void deleteMember(Long id){
 
             Member member = memberRepository.findById(id)
@@ -111,20 +117,20 @@
 
 
         //Buscar integrantes activos
-
+@Transactional(readOnly = true)
         public List<MemberResponse> findByActiveTrue(){
 
-            return memberRepository.findByAssetTrue()
+            return memberRepository.findByActiveTrue()
                     .stream()
                     .map(this::toResponse)
                     .toList();
         }
 
         //Buscar integrantes Inactivos
-
+@Transactional(readOnly = true)
         public List<MemberResponse> findByInActiveFalse(){
 
-            return memberRepository.findByAssetFalse()
+            return memberRepository.findByActiveFalse()
                     .stream()
                     .map(this::toResponse)
                     .toList();
@@ -133,7 +139,7 @@
 
 
         //buscar por cargo
-
+@Transactional(readOnly = true)
         public List<MemberResponse> findByEcclesiasticalOffice(EcclesiasticalOffice ecclesiastical_office){
 
            return memberRepository.findByEcclesiasticalOffice(ecclesiastical_office)
@@ -142,7 +148,7 @@
                     .toList();
 
         }
-
+@Transactional(readOnly = true)
         public List<DashboardOfficeCountResponse> dashboardOfficeCount(){
             return memberRepository.countMemberByOffice();
 
@@ -167,7 +173,7 @@
                     member.getLastname(),
                     member.getEmail(),
                     edad,
-                    member.isAsset(),
+                    member.isActive(),
                     member.getEcclesiasticalOffice(),
                     member.getMinistries()
                             .stream()

@@ -84,6 +84,28 @@ public class GlobalExceptionHandler {
     ) {
         return  e.getMessage();
     }
+    @ExceptionHandler(
+            AttendanceNotFoundExceptions.class
+    )
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String manejarAuthNotFound(
+            AttendanceNotFoundExceptions e
+    ) {
+        return  e.getMessage();
+    }
+
+    @ExceptionHandler(
+            UserAlreadyExistsException.class
+    )
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String manejarAuthNotFound(
+            UserAlreadyExistsException e
+    ) {
+        return  e.getMessage();
+    }
+
+
+
 
 
 

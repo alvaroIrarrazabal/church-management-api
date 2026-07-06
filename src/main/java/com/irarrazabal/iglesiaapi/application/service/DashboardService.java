@@ -4,6 +4,7 @@ import com.irarrazabal.iglesiaapi.application.dto.dashboard.DashboardResponse;
 import com.irarrazabal.iglesiaapi.domain.repository.MemberRepository;
 import com.irarrazabal.iglesiaapi.domain.repository.MinistryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DashboardService {
@@ -19,14 +20,14 @@ public class DashboardService {
         this.memberRepository = memberRepository;
         this.ministryRepository = ministryRepository;
     }
-
+@Transactional(readOnly = true)
     public DashboardResponse getDashboard() {
 
         return new DashboardResponse(
 
                 memberRepository.count(),
-                memberRepository.countByAssetTrue(),
-                memberRepository.countByAssetFalse(),
+                memberRepository.countByActiveTrue(),
+                memberRepository.countByActiveFalse(),
                 ministryRepository.count(),
                 memberRepository.countMemberByOffice(),
                 ministryRepository.dashboarMinistryCount()

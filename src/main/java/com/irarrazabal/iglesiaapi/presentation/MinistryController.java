@@ -1,4 +1,4 @@
-package com.irarrazabal.iglesiaapi.presentation.controllerMinistry;
+package com.irarrazabal.iglesiaapi.presentation;
 
 import com.irarrazabal.iglesiaapi.application.dto.MessageResponse;
 import com.irarrazabal.iglesiaapi.application.dto.dashboard.DashboardMinistryCountResponse;

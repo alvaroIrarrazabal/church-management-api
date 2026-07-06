@@ -21,14 +21,18 @@ public class Tithe extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
+    @Column(nullable = false)
     private LocalDate date;
-    @Column(precision = 12, scale = 2)
+
+    @Column(precision = 12, scale = 2, nullable = false)
     private BigDecimal amount;
+
+    @Column(length = 255)
     private String note;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="member_id")
+    @JoinColumn(name="member_id",nullable = false)
     private Member member;
 
 

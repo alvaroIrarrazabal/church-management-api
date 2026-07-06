@@ -18,14 +18,14 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     List<Member> findByMinistries_Name(String name);
 
-    List<Member> findByAssetTrue();
+    List<Member> findByActiveTrue();
 
-    List<Member> findByAssetFalse();
+    List<Member> findByActiveFalse();
 
     // Dashboard
-    long countByAssetTrue();
+    long countByActiveTrue();
 
-    long countByAssetFalse();
+    long countByActiveFalse();
 
     long countByEcclesiasticalOffice(
             EcclesiasticalOffice ecclesiasticalOffice);

@@ -8,6 +8,7 @@ import com.irarrazabal.iglesiaapi.domain.repository.TitheRepository;
 import com.irarrazabal.iglesiaapi.exceptions.MemberNotFoundExceptions;
 import com.irarrazabal.iglesiaapi.exceptions.TitheNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,7 +27,7 @@ public class TitheService {
     }
 
 
-
+    @Transactional(readOnly = true)
     public List<TitheResponse> findAllTithes(){
         return titheRepository.findAll()
                 .stream()
@@ -34,8 +35,8 @@ public class TitheService {
                 .toList();
     }
 
-
-    public TitheResponse createTithe(CreateTitherequest request){
+@Transactional
+    public TitheResponse createTithe(CreateTitheRequest request){
 
         Member member = memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new MemberNotFoundExceptions("El integrante no fue encontrado"));
@@ -49,7 +50,7 @@ public class TitheService {
         return toResponse(saved);
 
     }
-
+    @Transactional(readOnly = true)
     public TitheResponse findTitheById(Long id){
 
         Tithe tithe = titheRepository.findById(id)
@@ -57,21 +58,21 @@ public class TitheService {
 
         return toResponse(tithe);
     }
-
+    @Transactional(readOnly = true)
     public List<TitheResponse> findByMemberId(Long memberId){
          return titheRepository.findByMemberId(memberId)
                  .stream().map(this::toResponse)
                  .toList();
     }
 
-
+@Transactional
     public void deleteTitheById(Long id){
         if(!titheRepository.existsById(id)){
             throw new TitheNotFoundException("El Diezmo no existe");
         }
         titheRepository.deleteById(id);
     }
-
+    @Transactional
     public TitheResponse updateTitheById(Long id, UpdateTitheRequest request){
 
         Tithe tithe = titheRepository.findById(id)

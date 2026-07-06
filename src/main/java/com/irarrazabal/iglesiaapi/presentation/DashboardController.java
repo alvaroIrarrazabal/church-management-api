@@ -1,4 +1,4 @@
-package com.irarrazabal.iglesiaapi.presentation.controllerDashboard;
+package com.irarrazabal.iglesiaapi.presentation;
 
 import com.irarrazabal.iglesiaapi.application.dto.dashboard.DashboardResponse;
 import com.irarrazabal.iglesiaapi.application.service.DashboardService;

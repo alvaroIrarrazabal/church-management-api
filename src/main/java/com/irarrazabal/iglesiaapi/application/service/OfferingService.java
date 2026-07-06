@@ -8,6 +8,8 @@ import com.irarrazabal.iglesiaapi.application.dto.offering.UpdateOfferingRequest
 import com.irarrazabal.iglesiaapi.domain.model.Offering;
 import com.irarrazabal.iglesiaapi.domain.repository.OfferingRepository;
 import com.irarrazabal.iglesiaapi.exceptions.OfferingNotFoundException;
+
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,6 +24,7 @@ public class OfferingService {
         this.offeringRepository = offeringRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<OfferingResponse> findAllOfferings() {
 
         return offeringRepository.findAll()
@@ -30,6 +33,9 @@ public class OfferingService {
                 .toList();
     }
 
+
+
+    @Transactional(readOnly = true)
     public OfferingResponse findById(Long id) {
 
         Offering offering = offeringRepository.findById(id)
@@ -40,7 +46,7 @@ public class OfferingService {
 
         return toResponse(offering);
     }
-
+@Transactional
     public OfferingResponse createOffering(
             CreateOfferingRequest request
     ) {
@@ -55,7 +61,7 @@ public class OfferingService {
 
         return toResponse(saved);
     }
-
+@Transactional
     public OfferingResponse updateOffering(
             Long id,
             UpdateOfferingRequest request
@@ -75,7 +81,7 @@ public class OfferingService {
 
         return toResponse(updated);
     }
-
+@Transactional
     public void deleteOffering(Long id) {
 
         if (!offeringRepository.existsById(id)) {
@@ -87,6 +93,8 @@ public class OfferingService {
         offeringRepository.deleteById(id);
     }
 
+
+    @Transactional(readOnly = true)
     public List<OfferingResponse> findByServiceDate(
             LocalDate serviceDate
     ) {
@@ -97,6 +105,7 @@ public class OfferingService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public OfferingSummaryResponse getSummary() {
 
         return new OfferingSummaryResponse(
@@ -104,7 +113,7 @@ public class OfferingService {
                 offeringRepository.count()
         );
     }
-
+    @Transactional(readOnly = true)
     public OfferingMonthlySummaryResponse getMonthlySummary(
             int year,
             int month
