@@ -3,6 +3,8 @@ package com.irarrazabal.iglesiaapi.domain.repository;
 import com.irarrazabal.iglesiaapi.application.dto.dashboard.DashboardOfficeCountResponse;
 import com.irarrazabal.iglesiaapi.domain.model.EcclesiasticalOffice;
 import com.irarrazabal.iglesiaapi.domain.model.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -42,5 +44,19 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
         """)
     List<DashboardOfficeCountResponse>countMemberByOffice();
+
+
+    Page<Member> findByNameContainingIgnoreCaseOrLastnameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+            String name,
+            String lastname,
+            String email,
+            Pageable  pageable
+    );
+
+
+    Page<Member> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    Page<Member> findByEcclesiasticalOffice(EcclesiasticalOffice ecclesiasticalOffice,
+                                                    Pageable pageable);
 
 }

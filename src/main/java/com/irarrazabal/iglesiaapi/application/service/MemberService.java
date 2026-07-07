@@ -11,6 +11,9 @@
     import com.irarrazabal.iglesiaapi.domain.repository.MinistryRepository;
     import com.irarrazabal.iglesiaapi.exceptions.MemberNotFoundExceptions;
     import com.irarrazabal.iglesiaapi.exceptions.MinisterioNotFoundException;
+    import org.springframework.data.domain.Page;
+    import org.springframework.data.domain.Pageable;
+    import org.springframework.data.web.PageableDefault;
     import org.springframework.stereotype.Service;
     import org.springframework.transaction.annotation.Transactional;
 
@@ -68,10 +71,21 @@
 
         //Listar todos los integrantes
         @Transactional(readOnly = true)
-        public List<MemberResponse> findAllMember(){
-           return memberRepository.findAll()
-                   .stream()
-                   .map(this::toResponse).toList();
+        public Page<MemberResponse> findAllMembers(String search, Pageable pageable){
+            if(search == null || search.isBlank()) {
+                return memberRepository.findAll(pageable)
+                        .map(this::toResponse);
+            }
+
+            return memberRepository
+                    .findByNameContainingIgnoreCaseOrLastnameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                            search,
+                            search,
+                            search,
+                            pageable
+                    )
+                    .map(this::toResponse);
+
         }
 
         //Actualizar integrante, buscamos por id y si existe actualizamos
@@ -148,9 +162,29 @@
                     .toList();
 
         }
-@Transactional(readOnly = true)
+        @Transactional(readOnly = true)
         public List<DashboardOfficeCountResponse> dashboardOfficeCount(){
             return memberRepository.countMemberByOffice();
+
+        }
+
+
+
+
+        //Buscar por nombre
+        @Transactional
+        public Page<MemberResponse> searchByName(String name,  Pageable pageable){
+            return memberRepository
+                    .findByNameContainingIgnoreCase(name, pageable)
+                    .map(this::toResponse);
+
+        }
+        //Buscar por nombre
+        @Transactional
+        public Page<MemberResponse> searchByEcclesiasticalOffice(EcclesiasticalOffice office,  Pageable pageable){
+            return memberRepository
+                    .findByEcclesiasticalOffice( office, pageable)
+                    .map(this::toResponse);
 
         }
 
