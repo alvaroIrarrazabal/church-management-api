@@ -32,11 +32,17 @@ public class JwtService {
 
     //Generar token
 
-    public String generateToken(User user) {
+    public String generateToken(UserDetails userDetails) {
+
+        String role = userDetails.getAuthorities()
+                .stream()
+                .findFirst()
+                .orElseThrow()
+                .getAuthority();
 
         return Jwts.builder()
-                .subject(user.getEmail())
-                .claim("role", "ROLE_" + user.getRol().name())
+                .subject(userDetails.getUsername())
+                .claim("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(getSignKey())

@@ -104,6 +104,56 @@ public class GlobalExceptionHandler {
         return  e.getMessage();
     }
 
+    @ExceptionHandler(
+            IncorrectPasswordException.class
+    )
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String manejarAuthNotFound(
+            IncorrectPasswordException e
+    ) {
+        return  e.getMessage();
+    }
+
+    @ExceptionHandler(
+    PasswordMismatchExceptions.class
+    )
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String manejarAuthNotFound(
+            PasswordMismatchExceptions e
+    ) {
+        return  e.getMessage();
+    }
+
+    @ExceptionHandler(
+    SamePasswordExceptions.class
+    )
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String manejarAuthNotFound(
+            SamePasswordExceptions e
+    ) {
+        return  e.getMessage();
+    }
+
+    @ExceptionHandler(
+    InvalidCredentialExceptions.class
+    )
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String manejarAuthNotFound(
+            InvalidCredentialExceptions e
+    ) {
+        return  e.getMessage();
+    }
+
+
+    @ExceptionHandler(
+    InvalidTokenException.class
+    )
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String manejarAuthNotFound(
+            InvalidTokenException e
+    ) {
+        return  e.getMessage();
+    }
 
 
 

@@ -24,7 +24,7 @@ public record RegisterRequest(
         )
         String password,
 
-        @NotNull(message = "Debe seleccionar un rol")
+
                 Rol rol
 
 ) {}

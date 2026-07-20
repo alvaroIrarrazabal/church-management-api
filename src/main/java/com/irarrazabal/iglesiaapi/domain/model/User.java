@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "usuarios",
@@ -31,6 +33,16 @@ public class User extends Auditable {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private boolean enabled = false;
+
+    @Column(unique = true)
+    private String verificationToken;
+
+    private String resetPasswordToken;
+
+    private LocalDateTime resetPasswordExpiration;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)

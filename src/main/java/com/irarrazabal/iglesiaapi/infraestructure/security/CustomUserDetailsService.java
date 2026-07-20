@@ -2,6 +2,7 @@ package com.irarrazabal.iglesiaapi.infraestructure.security;
 
 import com.irarrazabal.iglesiaapi.domain.model.User;
 import com.irarrazabal.iglesiaapi.domain.repository.UserRepository;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,14 +26,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
 
         User user = userRepository.findByEmail(username)
-                .orElseThrow();
+                .orElseThrow(()-> new UsernameNotFoundException("Usuario no encontrado"));
 
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                List.of(
-                        new SimpleGrantedAuthority("ROLE_" + user.getRol().name())
+
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .authorities(
+                        new SimpleGrantedAuthority("ROLE_"+user.getRol().name())
                 )
-        );
+                .disabled(!user.isEnabled())
+                .build();
+
     }
 }

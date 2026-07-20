@@ -1,15 +1,14 @@
 package com.irarrazabal.iglesiaapi.presentation;
 
 import com.irarrazabal.iglesiaapi.application.dto.MessageResponse;
-import com.irarrazabal.iglesiaapi.application.dto.auth.AuthResponse;
-import com.irarrazabal.iglesiaapi.application.dto.auth.ChangeRoleRequest;
-import com.irarrazabal.iglesiaapi.application.dto.auth.LoginRequest;
-import com.irarrazabal.iglesiaapi.application.dto.auth.RegisterRequest;
+import com.irarrazabal.iglesiaapi.application.dto.auth.*;
 import com.irarrazabal.iglesiaapi.application.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,6 +38,7 @@ public class AuthController {
 
     }
 
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
     public String admin() {
@@ -52,5 +52,59 @@ public class AuthController {
 
        return ResponseEntity.ok(new MessageResponse("Rol actualizado correctamente, ahora tu rol es :"+request.rol().name()));
     }
+
+    @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<CurrentUserResponse> me(){
+
+       return  ResponseEntity.ok(authService.me());
+    }
+
+    @PutMapping("/change-password")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<MessageResponse> changePassword(@AuthenticationPrincipal UserDetails userDetails,
+                                                         @Valid @RequestBody ChangePasswordRequest request){
+
+       authService.changePassword(userDetails.getUsername(),request);
+
+       return ResponseEntity.ok(
+               new MessageResponse("Contraseña actualizada correctamente")
+       );
+    }
+
+    @GetMapping("/verify")
+    public ResponseEntity<MessageResponse> verifyAccount(
+            @RequestParam String token) {
+
+        authService.verifyAccount(token);
+
+        return ResponseEntity.ok(
+                new MessageResponse("Cuenta verificada correctamente.")
+        );
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<MessageResponse> resetPassword(
+            @Valid @RequestBody ResetPasswordRequest request){
+
+        authService.resetPassword(request);
+
+        return ResponseEntity.ok(
+                new MessageResponse(
+                        "Contraseña actualizada correctamente."
+                )
+        );
+
+    }
+
+    @PostMapping("/resend-verication")
+    public ResponseEntity<MessageResponse>resendVerification(@Valid @RequestBody ResendVerificationRequest request){
+       authService.resendVerificationEmail(request);
+       return  ResponseEntity.ok(new MessageResponse("Si el correo existe y la cuenta aún no está verificada, recibirás un nuevo correo de verificación."));
+
+    }
+
+
+
 
 }
