@@ -230,4 +230,27 @@ public class AuthService {
         user.setVerificationToken(null);
         userRepository.save(user);
     }
+
+
+    @Transactional
+    public void resendVerificationEmail(ResendVerificationRequest request) {
+
+        userRepository.findByEmail(request.email())
+                .filter(user -> !user.isEnabled())
+                .ifPresent(user -> {
+
+                    String token = UUID.randomUUID().toString();
+
+                    user.setVerificationToken(token);
+                    userRepository.save(user);
+
+                    String verificationLink =
+                            "http://localhost:8081/auth/verify?token=" + token;
+
+                    emailService.sendVerificationMail(
+                            user.getEmail(),
+                            verificationLink
+                    );
+                });
+    }
 }
