@@ -4,7 +4,6 @@ import com.irarrazabal.iglesiaapi.application.dto.MessageResponse;
 import com.irarrazabal.iglesiaapi.application.dto.dashboard.DashboardMinistryCountResponse;
 import com.irarrazabal.iglesiaapi.application.dto.members.MemberResponse;
 import com.irarrazabal.iglesiaapi.application.dto.ministry.*;
-import com.irarrazabal.iglesiaapi.application.service.MemberService;
 import com.irarrazabal.iglesiaapi.application.service.MinistryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,68 +16,80 @@ import java.util.List;
 @RequestMapping("/api")
 public class MinistryController {
 
-
     private final MinistryService ministryService;
-    private final MemberService memberService;
-    public MinistryController(MinistryService ministryService, MemberService memberService) {
+
+    public MinistryController(MinistryService ministryService) {
         this.ministryService = ministryService;
-        this.memberService = memberService;
     }
 
-    @GetMapping("/listAllMinistries")
+
+    // FIND ALL
+    @GetMapping("/ministries")
     @PreAuthorize("hasAnyRole('PASTOR','LIDER','ADMIN')")
-    public List<MinistryResponse> listByMinistry() {
+    public List<MinistryResponse> findAllMinistries() {
 
         return ministryService.findAllMinisteries();
     }
 
 
-    @GetMapping("/findMinisteryById/{id}")
+    // FIND BY ID
+    @GetMapping("/ministries/{id}")
     @PreAuthorize("hasAnyRole('PASTOR','LIDER','ADMIN')")
-    public MinistryResponse findMinisteryById(@PathVariable Long id) {
+    public MinistryResponse findMinistryById(@PathVariable Long id) {
 
         return ministryService.findMinistryById(id);
     }
 
-    @PostMapping("/createMinistry")
-    @PreAuthorize("hasAnyRole('PATOR','ADMIN')")
-    public MinistryResponse createMinistry(@RequestBody CreateMinistryRequest request) {
+
+    // CREATE
+    @PostMapping("/ministries")
+    @PreAuthorize("hasAnyRole('PASTOR','ADMIN')")
+    public MinistryResponse createMinistry(
+            @RequestBody CreateMinistryRequest request) {
 
         return ministryService.createMinistry(request);
     }
 
 
-    @PutMapping("/updateMinistry/{id}")
+    // UPDATE
+    @PutMapping("/ministries/{id}")
     @PreAuthorize("hasAnyRole('PASTOR','ADMIN')")
-    public MinistryResponse updateMinistry(@PathVariable Long id , @RequestBody UpdateMinistryRequest request){
+    public MinistryResponse updateMinistry(
+            @PathVariable Long id,
+            @RequestBody UpdateMinistryRequest request) {
 
-        return ministryService.updateMinistry(id,request);
+        return ministryService.updateMinistry(id, request);
     }
 
-    @DeleteMapping("/deleteMinistry/{id}")
+
+    // DELETE
+    @DeleteMapping("/ministries/{id}")
     @PreAuthorize("hasAnyRole('PASTOR','ADMIN')")
-    public ResponseEntity<MessageResponse> deleteMinistry(@PathVariable Long id){
+    public ResponseEntity<MessageResponse> deleteMinistry(
+            @PathVariable Long id) {
 
         ministryService.deleteMinistery(id);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body( new MessageResponse("Eliminado correctamente"));
+                .body(new MessageResponse("Eliminado correctamente"));
     }
 
 
-    @GetMapping("/findByMinistry/{name}")
+    // MEMBERS BY MINISTRY
+    @GetMapping("/ministries/{name}/members")
     @PreAuthorize("hasAnyRole('PASTOR','LIDER','ADMIN')")
-    public List<MemberResponse> findByMinistry(@PathVariable String name){
+    public List<MemberResponse> findMembersByMinistry(
+            @PathVariable String name) {
 
         return ministryService.findByMinistry(name);
     }
 
 
-    @GetMapping("/dashboardMinistryCount")
+    // DASHBOARD
+    @GetMapping("/dashboard/members-by-ministry")
     @PreAuthorize("hasAnyRole('PASTOR','LIDER','ADMIN')")
-    public List<DashboardMinistryCountResponse> dashboardMinistryCount(){
+    public List<DashboardMinistryCountResponse> dashboardMembersByMinistry() {
 
         return ministryService.dashboarMinistryCount();
     }
-
 }
