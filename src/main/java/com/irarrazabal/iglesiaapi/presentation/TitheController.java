@@ -9,73 +9,100 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tithe")
+@RequestMapping("/api/tithes")
 public class TitheController {
 
     private final TitheService titheService;
+
     public TitheController(TitheService titheService) {
         this.titheService = titheService;
-
     }
 
-    @GetMapping("/findAll")
+
+    // FIND ALL
+    @GetMapping
     @PreAuthorize("hasAnyRole('PASTOR','LIDER','ADMIN')")
-    public List<TitheResponse> findAllTithe(){
+    public List<TitheResponse> findAllTithes() {
+
         return titheService.findAllTithes();
     }
 
 
-    @PostMapping("/create")
+    // CREATE
+    @PostMapping
     @PreAuthorize("hasAnyRole('PASTOR','ADMIN')")
-    public TitheResponse createTithe(@RequestBody @Valid CreateTitheRequest createTitherequest){
-        return titheService.createTithe(createTitherequest);
+    public TitheResponse createTithe(
+            @RequestBody @Valid CreateTitheRequest request) {
+
+        return titheService.createTithe(request);
     }
 
-    @GetMapping("/findById/{id}")
+
+    // FIND BY ID
+    @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('PASTOR','ADMIN','LIDER')")
-    public TitheResponse findById(@PathVariable Long id){
+    public TitheResponse findTitheById(@PathVariable Long id) {
+
         return titheService.findTitheById(id);
     }
-    @GetMapping("/findByMember/{memberId}")
+
+
+    // FIND BY MEMBER
+    @GetMapping("/member/{memberId}")
     @PreAuthorize("hasAnyRole('PASTOR','ADMIN','LIDER')")
-    public List<TitheResponse> findByMember(@PathVariable Long memberId){
+    public List<TitheResponse> findTithesByMember(
+            @PathVariable Long memberId) {
+
         return titheService.findByMemberId(memberId);
     }
-    @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAnyRole('PASTOR','ADMIN')")
-    public void deleteTithe(@PathVariable Long id){
-         titheService.deleteTitheById(id);
-    }
 
-    @PutMapping("/update/{id}")
+
+    // UPDATE
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('PASTOR','ADMIN')")
-    public TitheResponse updateTithe(@PathVariable Long id, @RequestBody @Valid UpdateTitheRequest request){
+    public TitheResponse updateTithe(
+            @PathVariable Long id,
+            @RequestBody @Valid UpdateTitheRequest request) {
+
         return titheService.updateTitheById(id, request);
-
     }
 
+
+    // DELETE
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('PASTOR','ADMIN')")
+    public void deleteTithe(@PathVariable Long id) {
+
+        titheService.deleteTitheById(id);
+    }
+
+
+    // GENERAL SUMMARY
     @GetMapping("/summary")
     @PreAuthorize("hasAnyRole('PASTOR','ADMIN')")
-    public TitheSummaryResponse getSummary(){
+    public TitheSummaryResponse getSummary() {
+
         return titheService.getSummary();
-
     }
 
-    @GetMapping("/member/{memberId}/total")
+
+    // MEMBER SUMMARY
+    @GetMapping("/member/{memberId}/summary")
     @PreAuthorize("hasAnyRole('PASTOR','ADMIN')")
-    public MemberTitheSummaryResponse getTotalByMember(@PathVariable Long memberId){
+    public MemberTitheSummaryResponse getSummaryByMember(
+            @PathVariable Long memberId) {
+
         return titheService.getTotalByMember(memberId);
-
     }
 
 
-    @GetMapping("/summary/month")
+    // MONTHLY SUMMARY
+    @GetMapping("/summary/monthly")
     @PreAuthorize("hasAnyRole('PASTOR','ADMIN')")
-    public TitheMonthlySummaryResponse getTotalByMonth(@RequestParam int year, @RequestParam int month){
+    public TitheMonthlySummaryResponse getMonthlySummary(
+            @RequestParam int year,
+            @RequestParam int month) {
 
         return titheService.getTotalByMonth(year, month);
     }
-
-
-
 }
