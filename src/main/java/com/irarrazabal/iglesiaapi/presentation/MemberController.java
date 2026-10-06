@@ -20,112 +20,134 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-
 public class MemberController {
 
-
-    private MemberService memberService;
+    private final MemberService memberService;
 
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 
 
+    // CREATE
     @PostMapping("/members")
     @PreAuthorize("hasRole('ADMIN')")
-    public MemberResponse createMember(@Valid @RequestBody CreateMemberRequest request) {
+    public MemberResponse createMember(
+            @Valid @RequestBody CreateMemberRequest request) {
 
         return memberService.createMember(request);
-
     }
 
 
+    // FIND BY ID
     @GetMapping("/members/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','LIDER','PASTOR')")
-    public MemberResponse findMemberById(@PathVariable Long id){
+    public MemberResponse findMemberById(@PathVariable Long id) {
+
         return memberService.findMemberById(id);
     }
 
+
+    // FIND ALL + PAGINATION + GENERAL SEARCH
     @GetMapping("/members")
     @PreAuthorize("hasAnyRole('ADMIN','LIDER','PASTOR')")
-    public ResponseEntity<Page<MemberResponse>> findAllMember( @RequestParam(required = false)
-                                                                   String search,@PageableDefault(
-            page = 0,
-            size = 10,
-            sort = "name"
-    )Pageable pageable){
-        return ResponseEntity.ok(memberService.findAllMembers(search,pageable));
+    public ResponseEntity<Page<MemberResponse>> findAllMembers(
+            @RequestParam(required = false) String search,
+            @PageableDefault(
+                    page = 0,
+                    size = 10,
+                    sort = "name"
+            ) Pageable pageable) {
+
+        return ResponseEntity.ok(
+                memberService.findAllMembers(search, pageable)
+        );
     }
 
-    @GetMapping("/searchByName")
+
+    // SEARCH BY NAME
+    @GetMapping("/members/search")
     @PreAuthorize("hasAnyRole('ADMIN','LIDER','PASTOR')")
-    public ResponseEntity<Page<MemberResponse>> searchByName(@RequestParam String name, Pageable pageable){
-        return ResponseEntity.ok(memberService.searchByName(name,pageable));
+    public ResponseEntity<Page<MemberResponse>> searchByName(
+            @RequestParam String name,
+            Pageable pageable) {
+
+        return ResponseEntity.ok(
+                memberService.searchByName(name, pageable)
+        );
     }
 
-    @GetMapping("/searchByEcclesiasticalOffice")
+
+    // FILTER BY ECCLESIASTICAL OFFICE
+    @GetMapping("/members/by-office")
     @PreAuthorize("hasAnyRole('ADMIN','LIDER','PASTOR')")
-    public ResponseEntity<Page<MemberResponse>> searchByEcclesiastical(@RequestParam EcclesiasticalOffice office, Pageable pageable){
+    public ResponseEntity<Page<MemberResponse>> searchByEcclesiasticalOffice(
+            @RequestParam EcclesiasticalOffice office,
+            Pageable pageable) {
 
-
-        return ResponseEntity.ok(memberService.searchByEcclesiasticalOffice(office,pageable));
+        return ResponseEntity.ok(
+                memberService.searchByEcclesiasticalOffice(office, pageable)
+        );
     }
 
 
+    // UPDATE
     @PutMapping("/members/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public MemberResponse updateMember(@PathVariable Long id, @Valid @RequestBody UpdateMemberRequest request){
+    public MemberResponse updateMember(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateMemberRequest request) {
 
         return memberService.updateMember(id, request);
     }
 
-    @DeleteMapping("members/{id}")
+
+    // DELETE
+    @DeleteMapping("/members/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','PASTOR')")
-    public MessageResponse deleteMember(@PathVariable Long id){
+    public MessageResponse deleteMember(@PathVariable Long id) {
 
-         memberService.deleteMember(id);
+        memberService.deleteMember(id);
 
-         return ResponseEntity.status(HttpStatus.OK)
-                 .body( new MessageResponse("Eliminado correctamente")).getBody();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new MessageResponse("Eliminado correctamente"))
+                .getBody();
     }
 
 
-    @GetMapping("findByEcclesiasticalOffice/{ecclesiasticalOffice}")
+    // LIST BY ECCLESIASTICAL OFFICE
+    @GetMapping("/members/by-office/{office}")
     @PreAuthorize("hasAnyRole('ADMIN','PASTOR')")
-    public List<MemberResponse> findByEcclesiasticalOffice(@PathVariable EcclesiasticalOffice ecclesiasticalOffice){
+    public List<MemberResponse> findByEcclesiasticalOffice(
+            @PathVariable EcclesiasticalOffice office) {
 
-        return memberService.findByEcclesiasticalOffice(ecclesiasticalOffice);
-
+        return memberService.findByEcclesiasticalOffice(office);
     }
-    @GetMapping("/findByActiveTrue")
+
+
+    // ACTIVE MEMBERS
+    @GetMapping("/members/active")
     @PreAuthorize("hasAnyRole('ADMIN','PASTOR','LIDER')")
-    public List<MemberResponse> findBYActiveTrue( ){
+    public List<MemberResponse> findActiveMembers() {
 
         return memberService.findByActiveTrue();
-
     }
 
 
-
-    @GetMapping("/findByInActiveFalse")
+    // INACTIVE MEMBERS
+    @GetMapping("/members/inactive")
     @PreAuthorize("hasAnyRole('ADMIN','PASTOR','LIDER')")
-    public List<MemberResponse> findBYInactiveFalse( ){
+    public List<MemberResponse> findInactiveMembers() {
 
         return memberService.findByInActiveFalse();
-
     }
 
-    @GetMapping("/dashboardOfficeCount")
+
+    // DASHBOARD
+    @GetMapping("/dashboard/members-by-office")
     @PreAuthorize("hasAnyRole('ADMIN','PASTOR','LIDER')")
-    public List<DashboardOfficeCountResponse> dashboarOfficeCount( ){
+    public List<DashboardOfficeCountResponse> dashboardMembersByOffice() {
 
         return memberService.dashboardOfficeCount();
-
     }
-
-
-
-
-
-
 }
