@@ -198,7 +198,7 @@ public class AuthService {
             );
         }
 
-        if(!request.newPassword().equals(request.newPassword())){
+        if(!request.newPassword().equals(request.confirmPassword())){
             throw new InvalidTokenException(
                     "Las contraseñas no coinciden."
             );

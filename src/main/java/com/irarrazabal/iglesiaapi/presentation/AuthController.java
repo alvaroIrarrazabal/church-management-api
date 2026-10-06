@@ -83,6 +83,21 @@ public class AuthController {
         );
     }
 
+    @PostMapping("/forgot-password")
+    public ResponseEntity<MessageResponse> forgotPassword(
+            @Valid @RequestBody ForgotPasswordRequest request) {
+
+        authService.forgotPassword(request);
+
+        return ResponseEntity.ok(
+                new MessageResponse(
+                        "Si el correo existe, recibirás un enlace para restablecer tu contraseña."
+                )
+        );
+    }
+
+
+
     @PostMapping("/reset-password")
     public ResponseEntity<MessageResponse> resetPassword(
             @Valid @RequestBody ResetPasswordRequest request){
